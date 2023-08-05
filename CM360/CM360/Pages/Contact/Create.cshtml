@@ -1,0 +1,69 @@
+﻿@page
+@model CM360.Pages.Contact.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Expense</h1>
+<hr />
+<h4 align="center" style="color:red">@Html.ValidationMessage("DuplicateContact")</h4>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Contact.Name" class="control-label"></label>
+                <input asp-for="Contact.Name" class="form-control" />
+                <span asp-validation-for="Contact.Name" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label asp-for="Contact.EmployeeNumber" class="control-label"></label>
+                <input asp-for="Contact.EmployeeNumber" class="form-control" />
+                <span asp-validation-for="Contact.EmployeeNumber" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="Contact.ExpenseType" class="control-label"></label>
+                <select asp-for="Contact.ExpenseType" class="form-control">
+                    <option selected>Select</option>
+                    <option value="certification">Certification</option>
+                    <option value="internetBill">Internet Bill</option>
+                    <option value="relocation">Relocation</option>
+                    <option value="teamLunch">Team Lunch</option>
+                    <option value="travel">Travel</option>                    
+                </select>
+                <span asp-validation-for="Contact.ExpenseType" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="Contact.Amount" class="control-label"></label>
+                <input asp-for="Contact.Amount" class="form-control" />
+                <span asp-validation-for="Contact.Amount" class="text-danger"></span>
+            </div>  
+            <br />
+            <div class="form-group">
+                <label asp-for="Contact.Email" class="control-label"></label>
+                <input asp-for="Contact.Email" class="form-control" />
+                <span asp-validation-for="Contact.Email" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <br>
+                <input type="submit" value="Create" class="btn btn-outline-primary" />
+                <br/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
