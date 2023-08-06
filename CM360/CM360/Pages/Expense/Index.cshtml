@@ -1,0 +1,91 @@
+﻿@page
+@model CM360.Pages.Expense.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Expense Tracker</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-outline-primary">Create New</a>
+</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <h4 align="center" style="color:red">@Html.ValidationMessage("InvalidStatus")</h4>
+            Find by status:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Expense[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Expense[0].EmployeeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Expense[0].ExpenseType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Expense[0].Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Expense[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Expense[0].Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Expense)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpenseType)
+            </td>
+            <td>
+               @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                    @using CM360.Authorization;
+                    @using Microsoft.AspNetCore.Authorization;
+                    @inject IAuthorizationService AuthorizationService
+                    @if ((await AuthorizationService.AuthorizeAsync(User, item,ExpenseOperations.Update)).Succeeded)
+                    {
+                        <a asp-page="./Edit" class="btn btn-outline-primary" asp-route-id="@item.ExpenseId">Edit</a>
+                        <text> | </text>
+                    }
+
+                    <a asp-page="./Details" class="btn btn-outline-primary" asp-route-id="@item.ExpenseId">Details</a>
+
+                    @if ((await AuthorizationService.AuthorizeAsync(User, item,ExpenseOperations.Delete)).Succeeded)
+                    {
+                        <text> | </text>
+                        <a asp-page="./Delete" class="btn btn-outline-danger" asp-route-id="@item.ExpenseId">Delete</a>
+                    }
+                </td>
+        </tr>
+}
+    </tbody>
+</table>
